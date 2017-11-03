@@ -1,0 +1,71 @@
+gcloud sql connect plexipit-main --user=root
+show databases;
+use DBNAME;
+
+
+ CREATE TABLE podcast (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    image_link VARCHAR(255),
+    description VARCHAR(255),
+    producer VARCHAR(255),
+    website VARCHAR(255),
+    network VARCHAR(255),
+    last_updated DATE,
+    created DATE,
+    last_fetched DATE);
+
+ CREATE TABLE episode (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    release_date DATE,
+    length INT,
+    size BIGINT,
+    description VARCHAR(255),
+    audio_link VARCHAR(255),
+    last_updated DATE,
+    created DATE,
+    podcast_id INT UNSIGNED NOT NULL DEFAULT 0);
+
+ALTER TABLE episode ADD CONSTRAINT fk_podcast_id FOREIGN KEY (podcast_id) REFERENCES podcast(id);
+
+ALTER TABLE episode ADD COLUMN episode_number INT;
+
+
+
+episode
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(255)     | YES  |     | NULL    |                |
+| release_date   | date             | YES  |     | NULL    |                |
+| length         | int(11)          | YES  |     | NULL    |                |
+| size           | bigint(20)       | YES  |     | NULL    |                |
+| description    | varchar(255)     | YES  |     | NULL    |                |
+| audio_link     | varchar(255)     | YES  |     | NULL    |                |
+| last_updated   | date             | YES  |     | NULL    |                |
+| created        | date             | YES  |     | NULL    |                |
+| podcast_id     | int(10) unsigned | NO   | MUL | 0       |                |
+| episode_number | int(11)          | YES  |     | NULL    |                |
++----------------+------------------+------+-----+---------+----------------+
+
+podcast
++--------------+------------------+------+-----+---------+----------------+
+| Field        | Type             | Null | Key | Default | Extra          |
++--------------+------------------+------+-----+---------+----------------+
+| id           | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(255)     | YES  |     | NULL    |                |
+| image_link   | varchar(255)     | YES  |     | NULL    |                |
+| description  | varchar(255)     | YES  |     | NULL    |                |
+| producer     | varchar(255)     | YES  |     | NULL    |                |
+| website      | varchar(255)     | YES  |     | NULL    |                |
+| network      | varchar(255)     | YES  |     | NULL    |                |
+| last_updated | date             | YES  |     | NULL    |                |
+| created      | date             | YES  |     | NULL    |                |
+| last_fetched | date             | YES  |     | NULL    |                |
+| rss          | varchar(255)     | YES  |     | NULL    |                |
++--------------+------------------+------+-----+---------+----------------+
+
+IP: 35.194.30.82
+Instance: plexipit:us-central1:plexipit-main
