@@ -50,29 +50,50 @@ def GetEpisodeRelease(entry):
     return release_date
 
 
-def buildEpisodeList(feed):
+def newEpisodeList(feed, podcast_id, now):
     episodes = []
-    now = datetime.now()
     for entry in feed['entries']:
+        name = entry['title'].encode('ascii', 'ignore')
+        exisiting_episodes = db.Episode.query.filter_by(name=name, podcast=podcast_id)
+        if exisiting_episodes.count() > 0:
+            continue
         data = {}
         data['audio_link'] = GetAudioLink(entry['links'], 'audio/mpeg')
         data['release_date'] = GetEpisodeRelease(entry)
         data['created'] = datetime.now()
-        data['name'] = entry['title'].encode('ascii', 'ignore')
+        data['name'] = name
         data['length'] = GetSecondDurationString(entry)
         data['last_updated'] = now
         data['created'] = now
-        # TODO(dgriff): Add episode number, description, and size
-        episodes.append(data.copy())
+        data['description'] = entry['description']
+        data['podcast'] = podcast_id
+        # TODO(dgriff): Add episode number, and size
+        episode = db.CreateEpisode(data)
+        episodes.append(episode)
     return episodes
 
 
-def addPodcast(rss):
+def updatePodcast(rss):
     feed = feedparser.parse(rss)
-    feedObj = feed['feed']
     now = datetime.now()
+    exisiting_podcasts = db.Podcast.query.filter_by(rss=rss)
+    podcast_id = 0
+    if exisiting_podcasts.count() > 0:
+        podcast = exisiting_podcasts.first()
+        podcast_id = podcast.id
+        podcast.last_fetched = now
+        db.Update(podcast)
+    else:
+        podcast_id = createNewPodcast(feed, now)
+    episodes = newEpisodeList(feed, podcast_id, now)
 
-    # TODO(dgriff): Block on podcast already exisiting
+    # TODO(dgriff): Add podcast ID to all episodes
+    # TODO(dgriff): Filter for episodes that exist
+    # TODO(dgriff): Create episode for remaining
+
+
+def createNewPodcast
+    feedObj = feed['feed']
 
     feed_links = [link for link in feedObj['links'] if u['type'] == 'text/html']
     website = feed_links[0]['href'] if len(feed_links) > 0 else ''
@@ -84,18 +105,20 @@ def addPodcast(rss):
     data['name'] = feedObj['title']
     data['last_fetched'] = now
     data['last_updated'] = now
+    data['description'] = feedObj['description']
     if feedObj.get('publisher_detail'):
         data['producer'] = feedObj['publisher_detail'].get('name')
+    elif feedObj.get('itunes_author'):
+        data['producer'] = feedObj['itunes_author']
     img = getImage(feed)
     if img:
         data['image_link'] = img
 
-    # TODO(dgriff): set network and description
+    # TODO(dgriff): set network
+    # TODO(dgriff): Add language
+    # TODO(dgriff): Add categories
 
-    # TODO(dgriff): Creative podcast from data
+    podcast = db.CreatePodcast(data)
+    return podcast.id
 
-    episodes = buildEpisodeList(feed)
-
-    # TODO(dgriff): Add podcast ID to all episodes
-    # TODO(dgriff): Filter for episodes that exist
-    # TODO(dgriff): Create episode for remaining
+    
