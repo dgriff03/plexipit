@@ -11,7 +11,7 @@ def create_app():
 
 app = create_app()
 
-def row_to_dict_(row):
+def ObjecttoDict(row):
     data = row.__dict__.copy()
     data['id'] = row.id
     data.pop('_sa_instance_state')
@@ -23,14 +23,14 @@ def CreatePodcast(data):
         podcast = Podcast(**data)
         db.session.add(podcast)
         db.session.commit()
-        return row_to_dict_(podcast)
+        return ObjecttoDict(podcast)
 
 def CreateEpisode(data):
     with app.app_context():
         episode = Episode(**data)
         db.session.add(episode)
         db.session.commit()
-        return row_to_dict_(episode)
+        return ObjecttoDict(episode)
 
 class Podcast(db.Model):
     __tablename__ = 'podcast'
@@ -46,9 +46,7 @@ class Podcast(db.Model):
     created = db.Column(db.DateTime)
     last_fetched = db.Column(db.DateTime)
     rss = db.Column(db.String(255))
-
-    def __repr__(self):
-        return "{Podcast(name='%s', id='%d, last_updated=%s, rss=%s}".format(self.name, self.id, self.last_updated, self.rss)
+    language = db.Column(db.String(255))
 
 class Episode(db.Model):
     __tablename__ = 'episode'
@@ -61,10 +59,11 @@ class Episode(db.Model):
     audio_link = db.Column(db.String(255))
     last_updated = db.Column(db.DateTime)
     created = db.Column(db.DateTime)
-    podcast = db.Column(db.ForeignKey('podcast.id'))
+    podcast_id = db.Column(db.ForeignKey('podcast.id'))
     episode_number = db.Column(db.Integer)
-    created_timestamp = db.Column(db.DateTime)
+    created = db.Column(db.DateTime)
 
-    def __repr__(self):
-        return "{Episode(podcast_id='%s', name='%s', id='%d', length=%s, url=%s)}".format(self.podcast.id, self.name, self.id, self.length, self.audio_link)
-
+def Update(obj):
+    with app.app_context():
+        db.session.commit()
+        return ObjecttoDict(obj)

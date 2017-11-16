@@ -2,6 +2,8 @@ gcloud sql connect plexipit-main --user=root
 show databases;
 use DBNAME;
 
+Lambda33
+
 
  CREATE TABLE podcast (
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -31,6 +33,24 @@ ALTER TABLE episode ADD CONSTRAINT fk_podcast_id FOREIGN KEY (podcast_id) REFERE
 
 ALTER TABLE episode ADD COLUMN episode_number INT;
 
+ALTER TABLE episode MODIFY COLUMN description VARCHAR(5000);
+ALTER TABLE episode MODIFY COLUMN audio_link VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN description VARCHAR(5000);
+ALTER TABLE podcast MODIFY COLUMN rss VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN website VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN image_link VARCHAR(511);
+
+ALTER TABLE podcast ADD COLUMN language VARCHAR(255);
+
+
+ALTER TABLE podcast MODIFY last_fetched datetime;
+ALTER TABLE podcast MODIFY last_updated datetime;
+ALTER TABLE podcast MODIFY created datetime;
+
+ALTER TABLE episode MODIFY release_date datetime;
+ALTER TABLE episode MODIFY last_updated datetime;
+ALTER TABLE episode MODIFY created datetime;
+
 
 
 episode
@@ -39,13 +59,13 @@ episode
 +----------------+------------------+------+-----+---------+----------------+
 | id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
 | name           | varchar(255)     | YES  |     | NULL    |                |
-| release_date   | date             | YES  |     | NULL    |                |
+| release_date   | datetime         | YES  |     | NULL    |                |
 | length         | int(11)          | YES  |     | NULL    |                |
 | size           | bigint(20)       | YES  |     | NULL    |                |
-| description    | varchar(255)     | YES  |     | NULL    |                |
-| audio_link     | varchar(255)     | YES  |     | NULL    |                |
-| last_updated   | date             | YES  |     | NULL    |                |
-| created        | date             | YES  |     | NULL    |                |
+| description    | varchar(5000)    | YES  |     | NULL    |                |
+| audio_link     | varchar(511)     | YES  |     | NULL    |                |
+| last_updated   | datetime         | YES  |     | NULL    |                |
+| created        | datetime         | YES  |     | NULL    |                |
 | podcast_id     | int(10) unsigned | NO   | MUL | 0       |                |
 | episode_number | int(11)          | YES  |     | NULL    |                |
 +----------------+------------------+------+-----+---------+----------------+
@@ -56,15 +76,16 @@ podcast
 +--------------+------------------+------+-----+---------+----------------+
 | id           | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
 | name         | varchar(255)     | YES  |     | NULL    |                |
-| image_link   | varchar(255)     | YES  |     | NULL    |                |
-| description  | varchar(255)     | YES  |     | NULL    |                |
+| image_link   | varchar(511)     | YES  |     | NULL    |                |
+| description  | varchar(5000)    | YES  |     | NULL    |                |
 | producer     | varchar(255)     | YES  |     | NULL    |                |
-| website      | varchar(255)     | YES  |     | NULL    |                |
+| website      | varchar(511)     | YES  |     | NULL    |                |
 | network      | varchar(255)     | YES  |     | NULL    |                |
-| last_updated | date             | YES  |     | NULL    |                |
-| created      | date             | YES  |     | NULL    |                |
-| last_fetched | date             | YES  |     | NULL    |                |
-| rss          | varchar(255)     | YES  |     | NULL    |                |
+| last_updated | datetime         | YES  |     | NULL    |                |
+| created      | datetime         | YES  |     | NULL    |                |
+| last_fetched | datetime         | YES  |     | NULL    |                |
+| rss          | varchar(511)     | YES  |     | NULL    |                |
+| language     | varchar(255)     | YES  |     | NULL    |                |
 +--------------+------------------+------+-----+---------+----------------+
 
 IP: 35.194.30.82
