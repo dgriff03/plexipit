@@ -51,6 +51,8 @@ ALTER TABLE episode MODIFY release_date datetime;
 ALTER TABLE episode MODIFY last_updated datetime;
 ALTER TABLE episode MODIFY created datetime;
 
+ALTER TABLE podcast MODIFY COLUMN description TEXT;
+ALTER TABLE episode MODIFY COLUMN description TEXT;
 
 
 episode
@@ -62,7 +64,7 @@ episode
 | release_date   | datetime         | YES  |     | NULL    |                |
 | length         | int(11)          | YES  |     | NULL    |                |
 | size           | bigint(20)       | YES  |     | NULL    |                |
-| description    | varchar(5000)    | YES  |     | NULL    |                |
+| description    | text             | YES  |     | NULL    |                |
 | audio_link     | varchar(511)     | YES  |     | NULL    |                |
 | last_updated   | datetime         | YES  |     | NULL    |                |
 | created        | datetime         | YES  |     | NULL    |                |
@@ -77,7 +79,7 @@ podcast
 | id           | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
 | name         | varchar(255)     | YES  |     | NULL    |                |
 | image_link   | varchar(511)     | YES  |     | NULL    |                |
-| description  | varchar(5000)    | YES  |     | NULL    |                |
+| description  | text             | YES  |     | NULL    |                |
 | producer     | varchar(255)     | YES  |     | NULL    |                |
 | website      | varchar(511)     | YES  |     | NULL    |                |
 | network      | varchar(255)     | YES  |     | NULL    |                |

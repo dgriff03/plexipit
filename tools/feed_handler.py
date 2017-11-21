@@ -78,13 +78,12 @@ def newEpisodeList(feed, podcast_id, now):
         episodes.append(episode)
     return episodes
 
-
 def updatePodcast(rss):
     feed = feedparser.parse(rss)
     now = datetime.now()
-    exisiting_podcasts = db.Podcast.query.filter_by(rss=rss)
     podcast_id = 0
-    if exisiting_podcasts.count() > 0:
+    exisiting_podcasts = db.Podcast.query.filter_by(rss=rss)
+    if exisiting_podcasts.count > 0:
         podcast = exisiting_podcasts.first()
         podcast_id = podcast.id
         podcast.last_fetched = formatDatetime_(now)
