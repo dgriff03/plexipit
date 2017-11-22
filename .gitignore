@@ -1,5 +1,5 @@
-*/config.py
-*/service.json
+scripts/db/config.py
+scripts/service.json
 *.swp
 *.*~
 project.lock.json
