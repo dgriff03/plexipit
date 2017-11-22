@@ -1,8 +1,0 @@
-beta_settings:
-    cloud_sql_instances: "plexipit:us-central1:plexipit-main"
-
-env_variables:
-  CLOUDSQL_CONNECTION_NAME: plexipit:us-central1:plexipit-main
-  CLOUDSQL_USER: robocount
-  CLOUDSQL_PASSWORD: l3m0naid
-  CLOUDSQL_DATABASE: Main

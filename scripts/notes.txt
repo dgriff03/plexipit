@@ -1,0 +1,103 @@
+Next steps:
+1) Set update.py to run on hourly cron on GCP
+2) Set up site that has authentication
+3) Set up webpage that allows add for set of authed users
+4) Set up endpoints for fetching podcast episiodes + podcasts
+
+
+
+
+gcloud sql connect plexipit-main --user=root
+show databases;
+use DBNAME;
+
+Lambda33
+
+
+ CREATE TABLE podcast (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    image_link VARCHAR(255),
+    description VARCHAR(255),
+    producer VARCHAR(255),
+    website VARCHAR(255),
+    network VARCHAR(255),
+    last_updated DATE,
+    created DATE,
+    last_fetched DATE);
+
+ CREATE TABLE episode (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    release_date DATE,
+    length INT,
+    size BIGINT,
+    description VARCHAR(255),
+    audio_link VARCHAR(255),
+    last_updated DATE,
+    created DATE,
+    podcast_id INT UNSIGNED NOT NULL DEFAULT 0);
+
+ALTER TABLE episode ADD CONSTRAINT fk_podcast_id FOREIGN KEY (podcast_id) REFERENCES podcast(id);
+
+ALTER TABLE episode ADD COLUMN episode_number INT;
+
+ALTER TABLE episode MODIFY COLUMN description VARCHAR(5000);
+ALTER TABLE episode MODIFY COLUMN audio_link VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN description VARCHAR(5000);
+ALTER TABLE podcast MODIFY COLUMN rss VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN website VARCHAR(511);
+ALTER TABLE podcast MODIFY COLUMN image_link VARCHAR(511);
+
+ALTER TABLE podcast ADD COLUMN language VARCHAR(255);
+
+
+ALTER TABLE podcast MODIFY last_fetched datetime;
+ALTER TABLE podcast MODIFY last_updated datetime;
+ALTER TABLE podcast MODIFY created datetime;
+
+ALTER TABLE episode MODIFY release_date datetime;
+ALTER TABLE episode MODIFY last_updated datetime;
+ALTER TABLE episode MODIFY created datetime;
+
+ALTER TABLE podcast MODIFY COLUMN description TEXT;
+ALTER TABLE episode MODIFY COLUMN description TEXT;
+
+
+episode
++----------------+------------------+------+-----+---------+----------------+
+| Field          | Type             | Null | Key | Default | Extra          |
++----------------+------------------+------+-----+---------+----------------+
+| id             | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name           | varchar(255)     | YES  |     | NULL    |                |
+| release_date   | datetime         | YES  |     | NULL    |                |
+| length         | int(11)          | YES  |     | NULL    |                |
+| size           | bigint(20)       | YES  |     | NULL    |                |
+| description    | text             | YES  |     | NULL    |                |
+| audio_link     | varchar(511)     | YES  |     | NULL    |                |
+| last_updated   | datetime         | YES  |     | NULL    |                |
+| created        | datetime         | YES  |     | NULL    |                |
+| podcast_id     | int(10) unsigned | NO   | MUL | 0       |                |
+| episode_number | int(11)          | YES  |     | NULL    |                |
++----------------+------------------+------+-----+---------+----------------+
+
+podcast
++--------------+------------------+------+-----+---------+----------------+
+| Field        | Type             | Null | Key | Default | Extra          |
++--------------+------------------+------+-----+---------+----------------+
+| id           | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(255)     | YES  |     | NULL    |                |
+| image_link   | varchar(511)     | YES  |     | NULL    |                |
+| description  | text             | YES  |     | NULL    |                |
+| producer     | varchar(255)     | YES  |     | NULL    |                |
+| website      | varchar(511)     | YES  |     | NULL    |                |
+| network      | varchar(255)     | YES  |     | NULL    |                |
+| last_updated | datetime         | YES  |     | NULL    |                |
+| created      | datetime         | YES  |     | NULL    |                |
+| last_fetched | datetime         | YES  |     | NULL    |                |
+| rss          | varchar(511)     | YES  |     | NULL    |                |
+| language     | varchar(255)     | YES  |     | NULL    |                |
++--------------+------------------+------+-----+---------+----------------+
+
+IP: 35.194.30.82
+Instance: plexipit:us-central1:plexipit-main
