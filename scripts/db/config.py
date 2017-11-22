@@ -16,7 +16,7 @@ PROJECT_ID = 'plexipit'
 # Replace the following values the respective values of your Cloud SQL
 # instance.
 CLOUDSQL_USER = 'robocount'
-CLOUDSQL_PASSWORD = 'l3m0naid'
+CLOUDSQL_PASSWORD = 'H4mS4ndwich '
 CLOUDSQL_DATABASE = 'Main'
 
 # Set this value to the Cloud SQL connection name, e.g.
