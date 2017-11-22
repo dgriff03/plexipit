@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Plexipit.Web.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class PodcastsController : Controller
     {
         // GET api/values
         [HttpGet]
