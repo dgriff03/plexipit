@@ -1,3 +1,12 @@
+Next steps:
+1) Set update.py to run on hourly cron on GCP
+2) Set up site that has authentication
+3) Set up webpage that allows add for set of authed users
+4) Set up endpoints for fetching podcast episiodes + podcasts
+
+
+
+
 gcloud sql connect plexipit-main --user=root
 show databases;
 use DBNAME;
