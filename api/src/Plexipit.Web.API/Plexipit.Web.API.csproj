@@ -10,6 +10,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
+    <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,5 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Managers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Controllers\TokenController.cs" />
+    <Compile Remove="Controllers\BaseApiController.cs" />
   </ItemGroup>
 </Project>

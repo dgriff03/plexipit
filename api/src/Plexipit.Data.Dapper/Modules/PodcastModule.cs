@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -25,6 +23,11 @@ namespace Plexipit.Data.Dapper.Modules
             {
                 conn.Open();
                 var podcasts = await conn.QueryAsync<Podcast>("select " + FULL_PODCAST_SELECT + " from podcast").ConfigureAwait(false);
+                if (!podcasts.Any())
+                {
+                    return null; // TODO: set up an error
+                }
+
                 return podcasts.AsList();
             }
         }
@@ -35,6 +38,11 @@ namespace Plexipit.Data.Dapper.Modules
             {
                 conn.Open();
                 var podcast = await conn.QueryAsync<Podcast>("select " + FULL_PODCAST_SELECT + " from podcast where id = @id", new { id = id }).ConfigureAwait(false);
+                if (!podcast.Any())
+                {
+                    return null; // TODO: set up an error
+                }
+
                 return podcast.Single();
             }
         }
@@ -45,6 +53,11 @@ namespace Plexipit.Data.Dapper.Modules
             {
                 conn.Open();
                 var categories = await conn.QueryAsync<Category>("select distinct name from podcast_category pc left join category c on pc.category_id = c.id").ConfigureAwait(false);
+                if (!categories.Any())
+                {
+                    return null; // TODO: set up an error
+                }
+
                 return categories.AsList();
             }
         }

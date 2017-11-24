@@ -33,5 +33,16 @@ namespace Plexipit.Web.API.Managers
 
             return podcast; 
         }
+
+        public async Task<List<Episode>> GetPodcastEpisodes(long id)
+        {
+            return await _episodeModule.GetAllById(id).ConfigureAwait(false);
+        }
+
+        public async Task<Episode> GetPodcastEpisode(long podcastId, long episodeId)
+        {
+            // TODO: figure out if it's better to have podcastId here or not
+            return await _episodeModule.Get(episodeId).ConfigureAwait(false);
+        }
     }
 }

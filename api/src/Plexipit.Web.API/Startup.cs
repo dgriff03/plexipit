@@ -1,8 +1,12 @@
-﻿using Autofac;
+﻿using System.Text;
+using Autofac;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Plexipit.Data.Dapper.Modules;
 using Plexipit.Web.API.Managers;
 
@@ -20,6 +24,24 @@ namespace Plexipit.Web.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Handle auth
+            //services.AddAuthentication()
+                //.AddFacebook(options =>
+                //{
+                //    options.AppId = Configuration["auth:facebook:appid"];
+                //    options.AppSecret = Configuration["auth:facebook:appsecret"];
+                //})
+                //.AddGoogle(options =>
+                //{
+                //    options.ClientId = Configuration["auth:google:clientid"];
+                //    options.ClientSecret = Configuration["auth:google:clientsecret"];
+                //})
+                //.AddTwitter(options =>
+                //{
+                //    options.ConsumerKey = Configuration["auth:twitter:consumerkey"];
+                //    options.ConsumerSecret = Configuration["auth:twitter:consumersecret"];
+                //});
+
             // Add framework services
             services.AddMvc();
         }
@@ -47,11 +69,8 @@ namespace Plexipit.Web.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(routes => {
-                routes.MapRoute(
-                    name: "Podcasts",
-                    template: "{controller=Podcasts}/{action=Index}/{id?}");
-            });
+            app.UseAuthentication();
+            app.UseMvc();
         }
     }
 }

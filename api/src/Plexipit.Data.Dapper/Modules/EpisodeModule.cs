@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -25,6 +23,11 @@ namespace Plexipit.Data.Dapper.Modules
             {
                 conn.Open();
                 var episodes = await conn.QueryAsync<Episode>("select " + FULL_EPISODE_SELECT + " from episode where podcast_id = @id", new { id = podcastId }).ConfigureAwait(false);
+                if (!episodes.Any())
+                {
+                    return null; // TODO: set up an error
+                }
+
                 return episodes.AsList();
             }
         }
@@ -34,7 +37,12 @@ namespace Plexipit.Data.Dapper.Modules
             using (var conn = new MySqlConnection(_connectionString))
             {
                 conn.Open();
-                var episode = await conn.QueryAsync<Episode>("select " + FULL_EPISODE_SELECT + " from episode id = @id", new { id = id }).ConfigureAwait(false);
+                var episode = await conn.QueryAsync<Episode>("select " + FULL_EPISODE_SELECT + " from episode where id = @id", new { id = id }).ConfigureAwait(false);
+                if (!episode.Any())
+                {
+                    return null; // TODO: set up an error
+                }
+
                 return episode.Single();
             }
         }
