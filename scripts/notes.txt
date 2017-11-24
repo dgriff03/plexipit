@@ -6,6 +6,10 @@ Next steps:
 
 
 
+Categories:
+Currently fetched from 'tags' field as feedparser cannot find repeated "itunes:category" field. Will need to cleanup the data as quite a bit messy even as use for a tag.
+
+
 
 gcloud sql connect plexipit-main --user=root
 show databases;
