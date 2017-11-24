@@ -22,8 +22,13 @@ namespace Plexipit.Web.API.Managers
 
         public async Task<Podcast> GetPodcast(long id)
         {
-            // TODO: map episodes in
-            return await _podcastRepository.GetPodcast(id).ConfigureAwait(false);
+            var podcast = await _podcastRepository.GetPodcast(id).ConfigureAwait(false);
+            if (podcast != null)
+            {
+                podcast.Episodes = await _podcastRepository.GetEpisodes(id).ConfigureAwait(false);
+            }
+
+            return podcast; 
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
             
 namespace Plexipit.Models.Models
 {
@@ -9,6 +10,13 @@ namespace Plexipit.Models.Models
         public string Description { get; set; }
         public string Producer { get; set; }
         public string ImageLink { get; set; }
+        public string Website { get; set; }
+        public string Network { get; set; }
+        public string Rss { get; set; }
+        public string Language { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime LastUpdated { get; set; }
+        public DateTime LastFetched { get; set; }
         public List<Episode> Episodes { get; set; }
 
         public Podcast()
