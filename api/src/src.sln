@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plexipit.Web.API", "Plexipit.Web.API\Plexipit.Web.API.csproj", "{C4081F32-7495-4699-856E-B0EEE26CAC7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plexipit.Data.Dapper", "Plexipit.Data.Dapper\Plexipit.Data.Dapper.csproj", "{5FDD6F0B-8AB9-4B22-99EC-67F8572AD985}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plexipit.Models", "Plexipit.Models\Plexipit.Models.csproj", "{005AE6AD-EB87-42D5-B342-F75974541EB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4081F32-7495-4699-856E-B0EEE26CAC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4081F32-7495-4699-856E-B0EEE26CAC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4081F32-7495-4699-856E-B0EEE26CAC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4081F32-7495-4699-856E-B0EEE26CAC7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FDD6F0B-8AB9-4B22-99EC-67F8572AD985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FDD6F0B-8AB9-4B22-99EC-67F8572AD985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FDD6F0B-8AB9-4B22-99EC-67F8572AD985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FDD6F0B-8AB9-4B22-99EC-67F8572AD985}.Release|Any CPU.Build.0 = Release|Any CPU
+		{005AE6AD-EB87-42D5-B342-F75974541EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{005AE6AD-EB87-42D5-B342-F75974541EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{005AE6AD-EB87-42D5-B342-F75974541EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{005AE6AD-EB87-42D5-B342-F75974541EB4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
