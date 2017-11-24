@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using Dapper;
 using MySql.Data.MySqlClient;
 using Plexipit.Models.Models;
 
@@ -15,17 +18,24 @@ namespace Plexipit.Data.Dapper
             _connectionString = connectionString;
         }
 
-        private MySqlConnection GetMySqlConnection(string connectionString, bool open = true)
+        public async Task<List<Podcast>> GetPodcasts()
         {
-            var conn = new MySqlConnection(connectionString);
-            if (open) conn.Open();
-
-            return conn;
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                var podcasts = await conn.QueryAsync<Podcast>("select * from podcast").ConfigureAwait(false);
+                return podcasts.AsList();
+            }
         }
 
-        public List<Podcast> GetPodcasts()
+        public async Task<Podcast> GetPodcast(long id)
         {
-            throw new NotImplementedException();
+            using (var conn = new MySqlConnection(_connectionString))
+            {
+                conn.Open();
+                var podcast = await conn.QueryAsync<Podcast>("select * from podcast where id = @id", new { id = id }).ConfigureAwait(false);
+                return podcast.Single();
+            }
         }
     }
 }

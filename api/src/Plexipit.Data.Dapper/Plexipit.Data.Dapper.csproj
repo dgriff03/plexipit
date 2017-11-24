@@ -13,8 +13,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Plexipit.Models\Plexipit.Models.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Program.cs" />
-    <Compile Remove="Startup.cs" />
-  </ItemGroup>
 </Project>

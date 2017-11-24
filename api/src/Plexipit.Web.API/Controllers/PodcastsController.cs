@@ -3,24 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Plexipit.Web.API.Managers;
 
 namespace Plexipit.Web.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/podcasts")]
     public class PodcastsController : Controller
     {
-        // GET api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private PodcastsManager _podcastsManager;
+
+        public PodcastsController(PodcastsManager podcastsManager)
         {
-            return new string[] { "value1", "value2" };
+            _podcastsManager = podcastsManager;
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            return "value";
+            var result = await _podcastsManager.GetPodcasts();
+            if (result == null || !result.Any())
+            {
+                return NotFound();
+            }
+
+            return Json(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(long id)
+        {
+            var result = await _podcastsManager.GetPodcast(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Json(result);
         }
 
         // POST api/values
