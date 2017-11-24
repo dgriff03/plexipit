@@ -13,4 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Plexipit.Models\Plexipit.Models.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
 </Project>

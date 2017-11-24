@@ -1,11 +1,9 @@
-﻿using System;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Plexipit.Data.Dapper;
+using Plexipit.Data.Dapper.Modules;
 using Plexipit.Web.API.Managers;
 
 namespace Plexipit.Web.API
@@ -28,9 +26,16 @@ namespace Plexipit.Web.API
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterType<PodcastsRepository>()
-                   .WithParameter("connectionString", Configuration.GetConnectionString("DefaultConnection"))
+            var connString = Configuration.GetConnectionString("DefaultConnection");
+
+            builder.RegisterType<PodcastModule>()
+                   .WithParameter("connectionString", connString)
                    .AsSelf();
+
+            builder.RegisterType<EpisodeModule>()
+                   .WithParameter("connectionString", connString)
+                   .AsSelf();
+
             builder.RegisterType<PodcastsManager>().AsSelf();
         }
 

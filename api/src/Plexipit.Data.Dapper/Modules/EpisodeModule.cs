@@ -7,41 +7,19 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using Plexipit.Models.Models;
 
-namespace Plexipit.Data.Dapper
+namespace Plexipit.Data.Dapper.Modules
 {
-    public class PodcastsRepository
+    public class EpisodeModule
     {
         private readonly string _connectionString;
-        private const string FULL_PODCAST_SELECT = "id, name, image_link as imagelink, description, producer, website, network, created, last_updated as lastupdated, last_fetched as lastfetched, rss, language";
         private const string FULL_EPISODE_SELECT = "id, name, description, audio_link as audiolink, length, size, episode_number as episodenumber, created, release_date as releasedate, last_updated as lastupdated";
 
-
-        public PodcastsRepository(string connectionString)
+        public EpisodeModule(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<List<Podcast>> GetPodcasts()
-        {
-            using (var conn = new MySqlConnection(_connectionString))
-            {
-                conn.Open();
-                var podcasts = await conn.QueryAsync<Podcast>("select " + FULL_PODCAST_SELECT + " from podcast").ConfigureAwait(false);
-                return podcasts.AsList();
-            }
-        }
-
-        public async Task<Podcast> GetPodcast(long id)
-        {
-            using (var conn = new MySqlConnection(_connectionString))
-            {
-                conn.Open();
-                var podcast = await conn.QueryAsync<Podcast>("select " + FULL_PODCAST_SELECT + " from podcast where id = @id", new { id = id }).ConfigureAwait(false);
-                return podcast.Single();
-            }
-        }
-
-        public async Task<List<Episode>> GetEpisodes(long podcastId)
+        public async Task<List<Episode>> GetAllById(long podcastId)
         {
             using (var conn = new MySqlConnection(_connectionString))
             {
@@ -51,7 +29,7 @@ namespace Plexipit.Data.Dapper
             }
         }
 
-        public async Task<Episode> GetEpisode(long id)
+        public async Task<Episode> Get(long id)
         {
             using (var conn = new MySqlConnection(_connectionString))
             {

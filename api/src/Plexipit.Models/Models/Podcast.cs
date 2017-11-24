@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-            
+using System.Threading.Tasks;
+
 namespace Plexipit.Models.Models
 {
     public class Podcast
@@ -17,11 +18,13 @@ namespace Plexipit.Models.Models
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
         public DateTime LastFetched { get; set; }
+        public List<Category> Categories { get; set; }
         public List<Episode> Episodes { get; set; }
 
         public Podcast()
         {
             Episodes = new List<Episode>();
+            Categories = new List<Category>();
         }
     }
 }
