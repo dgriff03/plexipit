@@ -78,18 +78,49 @@ def newEpisodeList(feed, podcast_id, now):
         episodes.append(episode)
     return episodes
 
+def getCategoryId(name, now):
+    categories = db.Category.query.filter_by(name=name)
+    if categories.count() > 0:
+        return categories.first().id
+    data = {
+        'created': now,
+        'name': name,
+    }
+    category = db.CreateCategory(data)
+    return category['id']
+
+def updateCategory(podcast_id, feed, now):
+    feedObj = feed['feed']
+    if 'tags' not in feedObj:
+        return
+    tags = [x['term'].lower() for x in feed['feed']['tags']]
+    currentCategories = {}
+    for cat in db.PodcastCategory.query.filter_by(podcast_id=podcast_id):
+        currentCategories[cat] = True
+    for tag in tags:
+        if tag not in currentCategories:
+            category_id = getCategoryId(tag, now)
+            data = {
+                'category_id': category_id,
+                'podcast_id': podcast_id,
+                'created': now
+            }
+            db.CreatePodcastCategory(data)
+
 def updatePodcast(rss):
+    # TODO(dgriff): Should also capture itunes type (i.e. episodic) and explicit
     feed = feedparser.parse(rss)
     now = datetime.now()
     podcast_id = 0
     exisiting_podcasts = db.Podcast.query.filter_by(rss=rss)
-    if exisiting_podcasts.count > 0:
+    if exisiting_podcasts.count() > 0:
         podcast = exisiting_podcasts.first()
         podcast_id = podcast.id
         podcast.last_fetched = formatDatetime_(now)
         db.Update(podcast)
     else:
         podcast_id = createNewPodcast(rss, feed, now)
+    updateCategory(podcast_id, feed, now)
     episodes = newEpisodeList(feed, podcast_id, now)
 
 

@@ -32,6 +32,37 @@ def CreateEpisode(data):
         db.session.commit()
         return ObjecttoDict(episode)
 
+def CreateCategory(data):
+    with app.app_context():
+        cat = Category(**data)
+        db.session.add(cat)
+        db.session.commit()
+        return ObjecttoDict(cat)
+
+def CreatePodcastCategory(data):
+    with app.app_context():
+        pcat = PodcastCategory(**data)
+        db.session.add(pcat)
+        db.session.commit()
+        return ObjecttoDict(pcat)
+
+class Category(db.Model):
+    __tablename__ = 'category'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    created = db.Column(db.DateTime)
+
+
+class PodcastCategory(db.Model):
+    __tablename__ = 'podcast_category'
+
+    id = db.Column(db.Integer, primary_key=True)
+    podcast_id = db.Column(db.ForeignKey('podcast.id'))
+    category_id = db.Column(db.ForeignKey('category.id'))
+    created = db.Column(db.DateTime)
+
+
 class Podcast(db.Model):
     __tablename__ = 'podcast'
 
