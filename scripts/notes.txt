@@ -38,7 +38,25 @@ Lambda33
     created DATE,
     podcast_id INT UNSIGNED NOT NULL DEFAULT 0);
 
+ CREATE TABLE category (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    created DATETIME);
+
+CREATE TABLE podcast_category (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    podcast_id INT UNSIGNED NOT NULL DEFAULT 0,
+    category_id INT UNSIGNED NOT NULL DEFAULT 0,
+    created DATETIME);
+
+
+
 ALTER TABLE episode ADD CONSTRAINT fk_podcast_id FOREIGN KEY (podcast_id) REFERENCES podcast(id);
+
+ALTER TABLE podcast_category ADD CONSTRAINT fk_pc_podcast_id FOREIGN KEY (podcast_id) REFERENCES podcast(id);
+ALTER TABLE podcast_category ADD CONSTRAINT fk_pc_category_id FOREIGN KEY (category_id) REFERENCES category(id);
+
+
 
 ALTER TABLE episode ADD COLUMN episode_number INT;
 
@@ -62,6 +80,27 @@ ALTER TABLE episode MODIFY created datetime;
 
 ALTER TABLE podcast MODIFY COLUMN description TEXT;
 ALTER TABLE episode MODIFY COLUMN description TEXT;
+
+
+
+category
++---------+------------------+------+-----+---------+----------------+
+| Field   | Type             | Null | Key | Default | Extra          |
++---------+------------------+------+-----+---------+----------------+
+| id      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| name    | varchar(255)     | NO   |     | NULL    |                |
+| created | datetime         | YES  |     | NULL    |                |
++---------+------------------+------+-----+---------+----------------+
+
+podcast_category
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| id          | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| podcast_id  | int(10) unsigned | NO   | MUL | 0       |                |
+| category_id | int(10) unsigned | NO   | MUL | 0       |                |
+| created     | datetime         | YES  |     | NULL    |                |
++-------------+------------------+------+-----+---------+----------------+
 
 
 episode
